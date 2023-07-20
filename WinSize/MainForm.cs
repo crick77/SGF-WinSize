@@ -16,6 +16,8 @@ namespace WinSize
         public int h;
         private int org_w;
         private int org_h;
+        public string file_w;
+        public string file_h;
         public string jnlp;
 
         public MainForm()
@@ -84,7 +86,7 @@ namespace WinSize
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Changed())
+            if (Changed() || (file_h == "x" && file_w == "x"))
             {
                 DialogResult res = MessageBox.Show("Salvare le modifiche?", "Attenzione", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Cancel)
@@ -94,8 +96,8 @@ namespace WinSize
                 }
                 if (res == DialogResult.Yes)
                 {
-                    jnlp = jnlp.Replace("width=\"" + org_w + "\"", "width=\"" + w + "\"");
-                    jnlp = jnlp.Replace("height=\"" + org_h + "\"", "height=\"" + h + "\"");
+                    jnlp = jnlp.Replace("width=\"" + file_w + "\"", "width=\"" + w + "\"");
+                    jnlp = jnlp.Replace("height=\"" + file_h + "\"", "height=\"" + h + "\"");
                     File.WriteAllText(Program.FILE_NAME, jnlp);
                 }
             }

@@ -9,6 +9,8 @@ namespace WinSize
     static class Program
     {
         public static string FILE_NAME = "SGF.jnlp";
+        public static int DEFAULT_WIDTH = 800;
+        public static int DEFAULT_HEIGHT = 600;
 
         /// <summary>
         /// Punto di ingresso principale dell'applicazione.
@@ -39,8 +41,25 @@ namespace WinSize
             f.currentScreen = screenFormIsOn;
             int p = jnlp.IndexOf("width=\"") + "width=\"".Length;
             f.w = getNum(jnlp, p);
+            if (f.w < 0)
+            {
+                f.w = DEFAULT_WIDTH;
+                f.file_w = "x";
+            }
+            else {
+                f.file_w = f.w+"";
+            }
             p = jnlp.IndexOf("height=\"") + "height=\"".Length;
             f.h = getNum(jnlp, p);
+            if (f.h < 0)
+            {
+                f.h = DEFAULT_HEIGHT;
+                f.file_h = "x";
+            }
+            else
+            {
+                f.file_h = f.h + "";
+            }
             f.jnlp = jnlp;
             Application.Run(f);
         }
@@ -65,7 +84,14 @@ namespace WinSize
                 t += s[pos];
                 pos++;
             }
-            return int.Parse(t);
+            try
+            {
+                return int.Parse(t);
+            }
+            catch(FormatException)
+            {
+                return -1;
+            }
         }
     }
 }
